@@ -3,8 +3,12 @@ schema: stackline-package-project-memory-v1
 project: 13
 package: proxyquire
 target: "@stackline/proxyquire"
-state: BUILDING
+state: PUBLISHED
 decision: GO
+registry_scope: verdaccio-and-public-npm
+public_npm: true
+public_github: true
+docs_production: true
 last_updated: 2026-08-27
 ---
 
@@ -89,3 +93,32 @@ checks.
   official npm verification;
 - state: retryable `BUILDING`, not NO-GO. Do not rebuild the artifact,
   republish the staging-registry version, or begin Project 14.
+
+### Production release — 2026-08-27T19:23:31Z
+
+- Published the existing immutable `stackline-proxyquire-1.0.0.tgz` to
+  official npm after rechecking scope ownership and confirming the version was
+  absent. The Verdaccio version was not republished.
+- Official npm metadata reports the recorded SHA-1 and integrity, 24 files,
+  45,400 unpacked bytes, Node `>=12`, exact `resolve@1.22.12`, and a registry
+  signature. The npm and Verdaccio downloads are byte-identical to the local
+  artifact.
+- Clean direct scoped and `proxyquire@npm:@stackline/proxyquire` alias
+  consumers pass against official npm for CommonJS and the ESM-host facade;
+  installed package signatures pass verification.
+- The GitHub release at
+  https://github.com/alexandroit/stackline-proxyquire/releases/tag/stackline-v1.0.0
+  is immutable, resolves to release-source commit
+  `36552232c7fd0d133d56a8a8f502f15283f94914`, and carries all eight exact
+  release assets. Every downloaded asset byte-matches the recorded local file.
+- The production package documentation, catalog entry, search/selector data,
+  robots policy, and all six package URLs in both aggregate sitemaps are live
+  through Cloudflare. Desktop and mobile layouts, canonical metadata,
+  `SoftwareSourceCode` structured data, copy actions, valid workbench output,
+  and malformed-input handling pass browser verification.
+- The catalog source is commit
+  `a1d3ea4ebd4eaa1a8275a62f153498821953613f`; CI run 33108019738 and CodeQL
+  run 33108019134 pass. Production was backed up at
+  `/var/backups/stackline-docs/20260827T191702Z-proxyquire` before deployment.
+- Final disposition: GO / `PUBLISHED` and validated on Verdaccio, official
+  npm, GitHub, and production documentation.

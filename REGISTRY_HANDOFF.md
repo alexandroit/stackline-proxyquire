@@ -14,8 +14,13 @@
 - tests required: upstream, differential, cache, parent/children,
   nested/global state, loader composition, ESM host, types, runtime, coverage,
   package, packed install, registry alias, audit, CI, and CodeQL
-- publication status: NOT YET PUBLISHED
-- release evidence: populate only after immutable artifact and external checks
+- publication status: PUBLISHED TO VERDACCIO AND OFFICIAL NPM
+- npm: https://www.npmjs.com/package/@stackline/proxyquire
+- GitHub release: https://github.com/alexandroit/stackline-proxyquire/releases/tag/stackline-v1.0.0
+- docs: https://alexandro.net/docs/vanilla/proxyquire/
+- artifact SHA-1: `34d6a0ce2fc5b46ddf52e6a07ae6a9d6957a89fa`
+- artifact SHA-256: `0abc781ae295e7a9fa0a9d95c25b739e0f320cf5630cd864b46eba5f0baa521a`
+- official npm direct and legacy-alias clean installs: passed
 - next project: 14, `update-section`
 
 ## Release checkpoint — 2026-08-27 — retryable
@@ -32,3 +37,18 @@
   npm verification;
 - publication state remains retryable `BUILDING`; Project 14 must not start
   until this release completes or reaches a rigorously documented final NO-GO.
+
+## Production completion — 2026-08-27T19:23:31Z
+
+- the existing immutable artifact was published once to official npm after
+  ownership and version-absence checks; its npm, Verdaccio, and local bytes
+  match exactly;
+- official metadata, integrity, registry signature, clean direct install,
+  legacy-key alias install, CommonJS, and ESM-host checks pass;
+- the immutable GitHub release carries the exact tarball, checksums, inventory,
+  manifest, notes, and CycloneDX SBOM and resolves to the tagged release source;
+- production documentation, public catalog/search data, robots, canonical and
+  structured metadata, browser examples, desktop/mobile layouts, and six
+  aggregate sitemap entries pass through Cloudflare;
+- publication state is `PUBLISHED`; Project 14 may begin after the canonical
+  Project 13 records are synchronized.
