@@ -1,0 +1,172 @@
+{
+  "name": "@stackline/proxyquire",
+  "version": "1.0.0",
+  "description": "Compatibility-first CommonJS dependency injection with bounded cache cleanup, caller anchoring, and first-party types",
+  "type": "commonjs",
+  "main": "./index.js",
+  "module": "./index.mjs",
+  "types": "./index.d.ts",
+  "exports": {
+    ".": {
+      "types": {
+        "import": "./index.d.mts",
+        "require": "./index.d.cts",
+        "default": "./index.d.ts"
+      },
+      "import": "./index.mjs",
+      "require": "./index.js",
+      "default": "./index.js"
+    },
+    "./index": {
+      "types": {
+        "import": "./index.d.mts",
+        "require": "./index.d.cts",
+        "default": "./index.d.ts"
+      },
+      "import": "./index.mjs",
+      "require": "./index.js",
+      "default": "./index.js"
+    },
+    "./index.js": {
+      "types": {
+        "import": "./index.d.mts",
+        "require": "./index.d.cts",
+        "default": "./index.d.ts"
+      },
+      "import": "./index.mjs",
+      "require": "./index.js",
+      "default": "./index.js"
+    },
+    "./lib/proxyquire": {
+      "types": "./lib/proxyquire.d.ts",
+      "default": "./lib/proxyquire.js"
+    },
+    "./lib/proxyquire.js": {
+      "types": "./lib/proxyquire.d.ts",
+      "default": "./lib/proxyquire.js"
+    },
+    "./lib/proxyquire-error": {
+      "types": "./lib/proxyquire-error.d.ts",
+      "default": "./lib/proxyquire-error.js"
+    },
+    "./lib/proxyquire-error.js": {
+      "types": "./lib/proxyquire-error.d.ts",
+      "default": "./lib/proxyquire-error.js"
+    },
+    "./lib/is": {
+      "types": {
+        "import": "./lib/is.d.mts",
+        "require": "./lib/is.d.ts",
+        "default": "./lib/is.d.ts"
+      },
+      "import": "./lib/is.mjs",
+      "require": "./lib/is.js",
+      "default": "./lib/is.js"
+    },
+    "./lib/is.js": {
+      "types": {
+        "import": "./lib/is.d.mts",
+        "require": "./lib/is.d.ts",
+        "default": "./lib/is.d.ts"
+      },
+      "import": "./lib/is.mjs",
+      "require": "./lib/is.js",
+      "default": "./lib/is.js"
+    },
+    "./package.json": "./package.json"
+  },
+  "sideEffects": true,
+  "files": [
+    "index.js",
+    "index.mjs",
+    "index.d.ts",
+    "index.d.cts",
+    "index.d.mts",
+    "lib",
+    "examples",
+    "CHANGELOG.md",
+    "LICENSE",
+    "NOTICE",
+    "README.md",
+    "SECURITY.md",
+    "THIRD_PARTY_LICENSES.md"
+  ],
+  "scripts": {
+    "clean": "node scripts/clean.mjs",
+    "build": "node scripts/build.mjs",
+    "lint": "eslint index.js index.mjs lib scripts test/*.test.js test/runtime-compat.js test/esm.mjs docs-site examples",
+    "test:upstream": "mocha --require should --reporter spec test/proxyquire*.js",
+    "test:compatibility": "node --test test/compatibility.test.js",
+    "test:cache": "node --test test/cache-regression.test.js",
+    "test:differential": "node --test test/differential.test.js",
+    "test:dependents": "node --test test/dependent-usage.test.js",
+    "test:esm": "node test/esm.mjs",
+    "test:types": "node node_modules/typescript-3-9/bin/tsc -p test/types/tsconfig.legacy.json && node node_modules/typescript/bin/tsc -p test/types/tsconfig.commonjs.json && node node_modules/typescript/bin/tsc -p test/types/tsconfig.modern.json",
+    "test:runtime": "node test/runtime-compat.js",
+    "test": "npm run test:upstream && npm run test:compatibility && npm run test:cache && npm run test:differential && npm run test:dependents && npm run test:esm && npm run test:types && npm run test:runtime",
+    "test:coverage": "c8 --all --include=index.js --include=lib/*.js --check-coverage --lines 95 --functions 95 --branches 90 node --test test/compatibility.test.js test/cache-regression.test.js test/differential.test.js test/dependent-usage.test.js test/esm.mjs",
+    "test:smoke": "node scripts/smoke-install.mjs",
+    "test:registry": "node scripts/smoke-registry.mjs",
+    "test:docs": "npm run docs:build && node scripts/check-docs.mjs",
+    "check:package": "publint && attw --pack .",
+    "pack:check": "npm pack --dry-run",
+    "audit:dependencies": "npm audit --omit=dev --audit-level=low",
+    "audit:all": "npm audit --audit-level=low",
+    "audit:signatures": "npm audit signatures",
+    "docs:build": "npm run build && node scripts/build-docs.mjs",
+    "docs:serve": "node scripts/serve-docs.mjs",
+    "verify": "npm run clean && npm run lint && npm run build && npm test && npm run test:coverage && npm run test:smoke && npm run check:package && npm run pack:check && npm run test:docs && npm run audit:dependencies && npm run audit:all && npm run audit:signatures",
+    "prepack": "npm run build"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/alexandroit/stackline-proxyquire.git"
+  },
+  "homepage": "https://alexandro.net/docs/vanilla/proxyquire/",
+  "bugs": {
+    "url": "https://github.com/alexandroit/stackline-proxyquire/issues"
+  },
+  "devDependencies": {
+    "@arethetypeswrong/cli": "0.18.5",
+    "@eslint/js": "10.0.1",
+    "c8": "12.0.0",
+    "eslint": "10.9.1",
+    "mocha": "11.8.0",
+    "proxyquire-upstream": "npm:proxyquire@2.1.3",
+    "publint": "0.3.24",
+    "should": "13.2.3",
+    "sinon": "22.1.0",
+    "typescript": "7.0.2",
+    "typescript-3-9": "npm:typescript@3.9.10"
+  },
+  "overrides": {
+    "diff": "9.0.0",
+    "serialize-javascript": "7.1.0"
+  },
+  "keywords": [
+    "commonjs",
+    "dependency-injection",
+    "mock",
+    "proxyquire",
+    "require",
+    "stub",
+    "testing",
+    "typescript",
+    "stackline"
+  ],
+  "author": "Stackline Maintainers",
+  "contributors": [
+    "Thorsten Lorenz",
+    "Ben Drucker"
+  ],
+  "license": "MIT",
+  "dependencies": {
+    "resolve": "1.22.12"
+  },
+  "engines": {
+    "node": ">=12"
+  },
+  "publishConfig": {
+    "access": "public"
+  }
+}

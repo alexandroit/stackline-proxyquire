@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
+  <url><loc>https://alexandro.net/docs/vanilla/proxyquire/</loc></url>
+  <url><loc>https://alexandro.net/docs/vanilla/proxyquire/guides/migration.md</loc></url>
+  <url><loc>https://alexandro.net/docs/vanilla/proxyquire/guides/compatibility.md</loc></url>
+  <url><loc>https://alexandro.net/docs/vanilla/proxyquire/guides/third-party-licenses.md</loc></url>
+  <url><loc>https://alexandro.net/docs/vanilla/proxyquire/examples/commonjs.cjs</loc></url>
+  <url><loc>https://alexandro.net/docs/vanilla/proxyquire/examples/esm.mjs</loc></url>
+</urlset>

@@ -1,0 +1,185 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>@stackline/proxyquire - CommonJS dependency stubbing</title>
+  <meta name="description" content="A compatibility-first Proxyquire continuation with caller-anchored ESM-host configuration, TypeScript types, safer CommonJS loader restoration, and an audited resolution dependency graph.">
+  <meta name="keywords" content="proxyquire, CommonJS, dependency stubbing, module mocking, Node.js, TypeScript">
+  <meta name="robots" content="index,follow,max-image-preview:large">
+  <meta name="theme-color" content="#0e6f6a">
+  <link rel="canonical" href="https://alexandro.net/docs/vanilla/proxyquire/">
+  <link rel="stylesheet" href="./styles.css">
+  <meta property="og:type" content="website">
+  <meta property="og:title" content="@stackline/proxyquire">
+  <meta property="og:description" content="Stub CommonJS dependencies with the established Proxyquire API and an explicit ESM-host anchor.">
+  <meta property="og:url" content="https://alexandro.net/docs/vanilla/proxyquire/">
+  <meta name="twitter:card" content="summary">
+  <meta name="twitter:title" content="@stackline/proxyquire">
+  <meta name="twitter:description" content="A maintained, compatibility-first Proxyquire continuation for CommonJS tests.">
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "SoftwareSourceCode",
+    "name": "@stackline/proxyquire",
+    "version": "{{PACKAGE_VERSION}}",
+    "description": "Compatibility-first dependency stubbing for CommonJS tests.",
+    "codeRepository": "https://github.com/alexandroit/stackline-proxyquire",
+    "downloadUrl": "https://www.npmjs.com/package/@stackline/proxyquire",
+    "license": "https://github.com/alexandroit/stackline-proxyquire/blob/main/LICENSE",
+    "programmingLanguage": "JavaScript",
+    "runtimePlatform": "Node.js 12-24",
+    "url": "https://alexandro.net/docs/vanilla/proxyquire/"
+  }
+  </script>
+</head>
+<body id="top">
+  <a class="skip-link" href="#workbench">Skip to stub-resolution workbench</a>
+  <header class="site-header">
+    <a class="brand" href="#top" aria-label="@stackline/proxyquire home">
+      <span class="brand-mark" aria-hidden="true">P</span>
+      <span>@stackline/proxyquire</span>
+    </a>
+    <nav aria-label="Primary navigation">
+      <a href="#workbench">Workbench</a>
+      <a href="#api">API</a>
+      <a href="#boundary">ESM boundary</a>
+      <a href="#proof">Verification</a>
+      <a href="#migration">Migration</a>
+      <a href="https://github.com/alexandroit/stackline-proxyquire">GitHub</a>
+    </nav>
+  </header>
+
+  <main>
+    <section class="product-intro proxyquire-hero" aria-labelledby="page-title">
+      <div class="intro-content">
+        <p class="eyebrow">CommonJS dependency control</p>
+        <h1 id="page-title">@stackline/<wbr>proxyquire</h1>
+        <p>Load a CommonJS subject with focused dependency stubs, preserving the familiar Proxyquire API while making caller anchoring, cache cleanup, loader composition, types, and releases explicit.</p>
+        <div class="install-row">
+          <code id="install-command">npm install --save-dev @stackline/proxyquire</code>
+          <button class="compact-button" type="button" data-copy="#install-command">Copy</button>
+        </div>
+        <div class="release-line" aria-label="Release facts">
+          <span>v{{PACKAGE_VERSION}}</span><span>Node 12-24</span><span>TypeScript 3.9+</span><span>Exact-pinned resolver</span>
+        </div>
+      </div>
+    </section>
+
+    <section class="tool-band" id="workbench" aria-labelledby="workbench-title">
+      <div class="section-inner wide">
+        <div class="section-heading">
+          <div><p class="eyebrow dark">Interactive contract model</p><h2 id="workbench-title">Stub-resolution workbench</h2></div>
+          <button type="button" class="text-button" id="reset-button">Reset</button>
+        </div>
+        <p class="workbench-note">This browser tool previews object-stub call-through rules. Actual module interception runs only in Node's CommonJS loader.</p>
+        <div class="control-bar proxy-controls">
+          <label><span>Dependency request</span><input id="request" value="./mailer"></label>
+          <label><span>Stub scope</span><select id="scope"><option value="local">Local</option><option value="global">@global</option><option value="runtime">@runtimeGlobal</option></select></label>
+          <label class="toggle-label"><input id="no-call-thru" type="checkbox"><span>Disable call-through</span></label>
+          <button class="primary-button" type="button" id="evaluate-button">Resolve stub</button>
+        </div>
+        <div class="workspace-grid proxy-stage">
+          <article class="editor-panel">
+            <header><h3><label for="original-exports">Original dependency exports</label></h3><span>JSON preview</span></header>
+            <textarea id="original-exports" spellcheck="false">{
+  "send": "original send",
+  "format": "original format"
+}</textarea>
+          </article>
+          <article class="editor-panel">
+            <header><h3><label for="stub-exports">Provided stub</label></h3><span>JSON preview</span></header>
+            <textarea id="stub-exports" spellcheck="false">{
+  "send": "stubbed send"
+}</textarea>
+          </article>
+        </div>
+        <div class="comparison-result" id="comparison-result" aria-live="polite">
+          <span class="status-indicator" id="status-indicator"></span>
+          <strong id="result-title">Call-through fills omitted properties</strong>
+          <span id="result-detail">The stub replaces send and inherits format from the original dependency.</span>
+        </div>
+        <pre class="contract-output"><code id="resolved-output">{}</code></pre>
+        <div class="status-bar"><span id="scope-detail">Local stubs apply to the subject's matching require.</span><span class="status-separator"></span><span>Native ESM imports are outside this model.</span></div>
+      </div>
+    </section>
+
+    <section class="content-band" id="api" aria-labelledby="api-title">
+      <div class="section-inner content-grid">
+        <div><p class="eyebrow dark">Established API</p><h2 id="api-title">Callable, configurable, caller-relative.</h2><p>The default export remains a function. Configuration methods return that same instance for chaining.</p></div>
+        <div class="api-table-wrapper">
+          <table>
+            <thead><tr><th>API</th><th>Behavior</th><th>Status</th></tr></thead>
+            <tbody>
+              <tr><td><code>proxyquire(request, stubs)</code></td><td>Load a CommonJS subject with matching dependency stubs.</td><td>Preserved</td></tr>
+              <tr><td><code>.load(request, stubs)</code></td><td>Equivalent named method.</td><td>Preserved</td></tr>
+              <tr><td><code>.noCallThru()</code> / <code>.callThru()</code></td><td>Control whether omitted stub properties use the original dependency.</td><td>Preserved</td></tr>
+              <tr><td><code>.noPreserveCache()</code> / <code>.preserveCache()</code></td><td>Control post-load eviction or restoration of the pre-call cache entry.</td><td>Preserved</td></tr>
+              <tr><td><code>createProxyquire(from)</code> / <code>from(from)</code></td><td>Create an independent caller-anchored instance.</td><td>Additive</td></tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </section>
+
+    <section class="content-band muted" id="boundary" aria-labelledby="boundary-title">
+      <div class="section-inner content-grid">
+        <div><p class="eyebrow dark">Honest ESM boundary</p><h2 id="boundary-title">ESM host, CommonJS subject.</h2><p>An ESM or native-TypeScript test can anchor CommonJS resolution explicitly. Proxyquire does not rewrite native ESM import bindings.</p></div>
+        <div class="code-surface">
+          <pre><code>import { createProxyquire } from '@stackline/proxyquire'
+
+const proxyquire = createProxyquire(import.meta.url)
+const subject = proxyquire('./subject.cjs', {
+  './dependency.cjs': { value: 'stubbed' }
+})</code></pre>
+          <a class="inline-link" href="./guides/compatibility.md">Read the complete compatibility boundary</a>
+        </div>
+      </div>
+    </section>
+
+    <section class="content-band" id="proof" aria-labelledby="proof-title">
+      <div class="section-inner proof-grid">
+        <div><p class="eyebrow dark">Release gate</p><h2 id="proof-title">Test the global state, not only the result.</h2><p>The release gate covers cache snapshots, transient children, nested loads, global-state isolation, loader replacement, packaging, and clean consumers.</p></div>
+        <dl class="proof-list">
+          <div><dt>7</dt><dd>Node major lines from 12 through 24</dd></div>
+          <div><dt>3</dt><dd>operating systems in CI</dd></div>
+          <div><dt>1</dt><dd>exact-pinned direct runtime dependency</dd></div>
+          <div><dt>2</dt><dd>TypeScript generations checked</dd></div>
+          <div><dt>CJS</dt><dd>explicit interception boundary</dd></div>
+          <div><dt>Alias</dt><dd>legacy package-name smoke install</dd></div>
+        </dl>
+      </div>
+    </section>
+
+    <section class="resource-band" id="migration" aria-labelledby="migration-title">
+      <div class="section-inner resource-grid">
+        <div><p class="eyebrow">Drop-in adoption</p><h2 id="migration-title">Keep existing requires.</h2><p>An npm alias changes the package without changing <code>require('proxyquire')</code>.</p></div>
+        <div class="code-surface">
+          <pre id="alias-command"><code>npm install --save-dev proxyquire@npm:@stackline/proxyquire</code></pre>
+          <button class="compact-button" type="button" data-copy="#alias-command">Copy alias command</button>
+        </div>
+      </div>
+    </section>
+
+    <section class="content-band" aria-labelledby="resources-title">
+      <div class="section-inner resource-grid">
+        <div><p class="eyebrow dark">Project resources</p><h2 id="resources-title">Inspect the contract.</h2></div>
+        <nav aria-label="Project resources">
+          <a href="https://www.npmjs.com/package/@stackline/proxyquire">npm</a>
+          <a href="https://github.com/alexandroit/stackline-proxyquire">GitHub</a>
+          <a href="./guides/migration.md">Migration</a>
+          <a href="./guides/third-party-licenses.md">Attribution</a>
+          <a href="https://github.com/alexandroit/stackline-proxyquire/blob/main/LICENSE">MIT license</a>
+        </nav>
+      </div>
+    </section>
+  </main>
+
+  <footer>
+    <div><strong>@stackline/proxyquire</strong><span>Independent maintained continuation of proxyquire.</span></div>
+    <nav aria-label="Footer navigation"><a href="#top">Top</a><a href="./llms.txt">LLM summary</a><a href="./sitemap.xml">Sitemap</a></nav>
+  </footer>
+  <script src="./app.js" defer></script>
+  <script src="./analytics.js" defer></script>
+</body>
+</html>
