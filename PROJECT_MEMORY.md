@@ -70,3 +70,22 @@ Populate the exact source/tag commit, artifact hashes and integrity, package
 inventory, registry metadata, CI and CodeQL runs, GitHub release, production
 documentation, and clean-install results only after independent publication
 checks.
+
+### Retryable release checkpoint — 2026-08-27
+
+- source/tag commit: `36552232c7fd0d133d56a8a8f502f15283f94914`;
+- tag: `stackline-v1.0.0`;
+- CI run 33079422946 and CodeQL run 33079422873: successful;
+- immutable artifact: 14,244 packed bytes, 45,400 unpacked bytes, 24 files;
+- artifact SHA-1: `34d6a0ce2fc5b46ddf52e6a07ae6a9d6957a89fa`;
+- artifact SHA-256:
+  `0abc781ae295e7a9fa0a9d95c25b739e0f320cf5630cd864b46eba5f0baa521a`;
+- npm integrity:
+  `sha512-C4ynR0gEAbq4s6Iah0cXRtXdQSxkfHpNiSYWpFq/timiWg5H4XqMjJBOCmoHJDurTgNly4cEPK7oH58m/BFrhA==`;
+- exact artifact, direct consumer, and legacy-key alias consumer: verified on
+  the staging registry;
+- official npm: absent; the available publisher credential returns E401;
+- GitHub release and production documentation: intentionally pending until
+  official npm verification;
+- state: retryable `BUILDING`, not NO-GO. Do not rebuild the artifact,
+  republish the staging-registry version, or begin Project 14.
