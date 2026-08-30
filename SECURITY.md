@@ -29,7 +29,7 @@ The package is not a sandbox, module-integrity verifier, permission system, or
 safe evaluator for untrusted code. It does not intercept native ESM imports or
 isolate other code running in the same process.
 
-The published package has one exact-pinned direct runtime dependency,
-`resolve@1.22.12`, and seven external production package nodes in total.
-Release verification must confirm the packed manifest, lockfile, dependency
-signatures, SBOM, and a clean production audit.
+The published package has no runtime, optional, or peer dependencies. Release
+verification must confirm the packed manifest, lockfile, direct and historical
+alias installation trees, registry signatures, SBOM, and clean full and
+production audits.

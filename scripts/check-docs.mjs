@@ -19,8 +19,8 @@ const builtMessage = await readFile(new URL('examples/message.cjs', site), 'utf8
 
 assert(metadata.name === packageJson.name, 'documentation package name is stale')
 assert(metadata.version === packageJson.version, 'documentation version is stale')
-assert(metadata.runtimeDependencies === 1, 'documentation dependency count is stale')
-assert(packageJson.dependencies.resolve === '1.22.12', 'documented resolver pin is stale')
+assert(metadata.runtimeDependencies === 0, 'documentation dependency count is stale')
+assert(Object.keys(packageJson.dependencies).length === 0, 'published runtime dependencies must remain empty')
 assert(!html.includes('{{PACKAGE_VERSION}}'), 'HTML version placeholder was not replaced')
 assert(html.includes('<link rel="canonical" href="https://alexandro.net/docs/vanilla/proxyquire/">'), 'canonical URL is missing')
 assert(html.includes('SoftwareSourceCode'), 'structured software metadata is missing')

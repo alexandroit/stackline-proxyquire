@@ -1,6 +1,6 @@
 import assert from 'node:assert/strict'
 import { spawnSync } from 'node:child_process'
-import { mkdtemp, rm, writeFile } from 'node:fs/promises'
+import { mkdtemp, readFile, rm, writeFile } from 'node:fs/promises'
 import os from 'node:os'
 import path from 'node:path'
 
@@ -8,7 +8,8 @@ const registryArgument = process.argv.find((value) => value.startsWith('--regist
 const registry = registryArgument
   ? registryArgument.slice('--registry='.length)
   : process.env.STACKLINE_REGISTRY || 'http://127.0.0.1:4873'
-const version = process.env.STACKLINE_VERSION || '1.0.0'
+const sourceManifest = JSON.parse(await readFile(new URL('../package.json', import.meta.url), 'utf8'))
+const version = process.env.STACKLINE_VERSION || sourceManifest.version
 const temporary = await mkdtemp(path.join(os.tmpdir(), 'stackline-proxyquire-registry-'))
 
 function run (args) {
@@ -41,6 +42,15 @@ try {
     registry
   ], { cwd: temporary, encoding: 'utf8', maxBuffer: 4 * 1024 * 1024 })
   assert.equal(installed.status, 0, installed.stdout + installed.stderr)
+  assert.doesNotMatch(installed.stdout + installed.stderr, /npm\s+warn|deprecated|ERESOLVE|EBADENGINE|EINTEGRITY/i)
+
+  for (const args of [
+    ['ls', '--all', '--omit=dev'],
+    ['audit', '--omit=dev', '--audit-level=low', '--registry', registry]
+  ]) {
+    const checked = spawnSync('npm', args, { cwd: temporary, encoding: 'utf8', maxBuffer: 4 * 1024 * 1024 })
+    assert.equal(checked.status, 0, checked.stdout + checked.stderr)
+  }
 
   run(['--input-type=commonjs', '-e', [
     "const direct = require('@stackline/proxyquire')",

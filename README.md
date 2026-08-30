@@ -7,8 +7,7 @@
 Compatibility-first dependency stubbing for CommonJS tests. It preserves the
 established `proxyquire@2.1.3` API while adding a caller-anchored factory for
 tests authored as native ES modules or TypeScript, first-party declarations,
-safer loader restoration, and a reduced, exact-pinned resolution dependency
-graph.
+safer loader restoration, and a dependency-free runtime.
 
 ## Install
 
@@ -138,8 +137,9 @@ removed Proxyquire 0.3 compatibility mode requires an older pinned release.
 - ESM/native-TypeScript host facade for CommonJS subjects
 - TypeScript 3.9 and current TypeScript
 - Node.js 12 through 24
-- one exact-pinned direct runtime dependency (`resolve@1.22.12`), seven external
-  production package nodes in total, and a clean production audit
+- zero production, optional, and peer dependencies
+- warning-free direct and historical-alias installs with a valid npm tree and
+  zero production audit findings
 
 See the [migration guide](./MIGRATION.md) and full
 [compatibility contract](./COMPATIBILITY_CONTRACT.md). Interactive documentation

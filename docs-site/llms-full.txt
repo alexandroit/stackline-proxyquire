@@ -32,8 +32,8 @@ cache snapshots, transient children, nested/global loads, extension handler
 composition, the caller-anchored ESM-host path, TypeScript 3.9/current, Node
 12-24, Linux/macOS/Windows, package contents, direct and legacy-alias clean
 installs, coverage, package lint, and production dependency audit. The package
-has one exact-pinned direct runtime dependency and seven external production
-package nodes in total. `resolve@1.22.12` is retained because native resolution
+has no runtime, optional, or peer dependencies. An internal lexical resolver
+is retained because native canonical resolution
 collapses distinct symlink and package-export-alias request identities.
 
 ## Scope

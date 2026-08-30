@@ -1,11 +1,12 @@
 import assert from 'node:assert/strict'
 import { spawnSync } from 'node:child_process'
-import { mkdtemp, readFile, rm, writeFile } from 'node:fs/promises'
+import { mkdir, mkdtemp, readFile, rm, writeFile } from 'node:fs/promises'
 import { fileURLToPath } from 'node:url'
 import os from 'node:os'
 import path from 'node:path'
 
 const root = fileURLToPath(new URL('../', import.meta.url))
+const sourceManifest = JSON.parse(await readFile(path.join(root, 'package.json'), 'utf8'))
 const temporary = await mkdtemp(path.join(os.tmpdir(), 'stackline-proxyquire-pack-'))
 let tarball
 
@@ -35,6 +36,7 @@ try {
     'index.d.cts',
     'index.d.mts',
     'lib/proxyquire.js',
+    'lib/request-resolver.js',
     'lib/proxyquire-error.js',
     'lib/is.mjs',
     'examples/commonjs.cjs',
@@ -56,7 +58,10 @@ try {
   await writeFile(path.join(temporary, 'dependency.cjs'), "module.exports = { value: 'real' }\n")
   await writeFile(path.join(temporary, 'subject.cjs'), "module.exports = require('./dependency.cjs').value\n")
 
-  run('npm', ['install', '--ignore-scripts', '--no-audit', '--no-fund'])
+  const install = run('npm', ['install', '--ignore-scripts', '--no-audit', '--no-fund'])
+  assert.doesNotMatch(install.stdout + install.stderr, /npm\s+warn|deprecated|ERESOLVE|EBADENGINE|EINTEGRITY/i)
+  run('npm', ['ls', '--all', '--omit=dev'])
+  run('npm', ['audit', '--omit=dev', '--audit-level=low'])
 
   run(process.execPath, ['--input-type=commonjs', '-e', [
     "const proxyquire = require('@stackline/proxyquire')",
@@ -104,10 +109,20 @@ try {
 
   const manifest = JSON.parse(await readFile(path.join(installedRoot, 'package.json'), 'utf8'))
   assert.equal(manifest.name, '@stackline/proxyquire')
-  assert.equal(manifest.version, '1.0.0')
-  assert.deepEqual(manifest.dependencies, { resolve: '1.22.12' })
-  const resolver = JSON.parse(await readFile(path.join(temporary, 'node_modules', 'resolve', 'package.json'), 'utf8'))
-  assert.equal(resolver.version, '1.22.12')
+  assert.equal(manifest.version, sourceManifest.version)
+  assert.deepEqual(manifest.dependencies, {})
+
+  const aliasDirectory = path.join(temporary, 'alias-consumer')
+  await mkdir(aliasDirectory)
+  await writeFile(path.join(aliasDirectory, 'package.json'), JSON.stringify({
+    private: true,
+    dependencies: { proxyquire: `file:${tarball}` }
+  }))
+  const aliasInstall = run('npm', ['install', '--ignore-scripts', '--no-audit', '--no-fund'], { cwd: aliasDirectory })
+  assert.doesNotMatch(aliasInstall.stdout + aliasInstall.stderr, /npm\s+warn|deprecated|ERESOLVE|EBADENGINE|EINTEGRITY/i)
+  run(process.execPath, ['--input-type=commonjs', '-e', "if (typeof require('proxyquire') !== 'function') process.exit(1)"], { cwd: aliasDirectory })
+  run('npm', ['ls', '--all', '--omit=dev'], { cwd: aliasDirectory })
+  run('npm', ['audit', '--omit=dev', '--audit-level=low'], { cwd: aliasDirectory })
 } finally {
   if (tarball) await rm(tarball, { force: true })
   await rm(temporary, { force: true, recursive: true })

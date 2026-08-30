@@ -39,13 +39,8 @@ jobs:
       - uses: actions/setup-node@820762786026740c76f36085b0efc47a31fe5020 # v7.0.0
         with:
           node-version: ${{ matrix.node }}
-      - run: npm install --prefix "$RUNNER_TEMP/proxyquire-runtime-deps" --ignore-scripts --no-audit --no-fund resolve@1.22.12
       - run: npm run test:runtime
-        env:
-          NODE_PATH: ${{ runner.temp }}/proxyquire-runtime-deps/node_modules
       - run: node test/esm.mjs
-        env:
-          NODE_PATH: ${{ runner.temp }}/proxyquire-runtime-deps/node_modules
 
   typescript-39:
     runs-on: ubuntu-latest

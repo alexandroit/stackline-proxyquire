@@ -4,7 +4,7 @@
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>@stackline/proxyquire - CommonJS dependency stubbing</title>
-  <meta name="description" content="A compatibility-first Proxyquire continuation with caller-anchored ESM-host configuration, TypeScript types, safer CommonJS loader restoration, and an audited resolution dependency graph.">
+  <meta name="description" content="A compatibility-first, dependency-free Proxyquire continuation with caller-anchored ESM-host configuration, TypeScript types, and safer CommonJS loader restoration.">
   <meta name="keywords" content="proxyquire, CommonJS, dependency stubbing, module mocking, Node.js, TypeScript">
   <meta name="robots" content="index,follow,max-image-preview:large">
   <meta name="theme-color" content="#0e6f6a">
@@ -61,7 +61,7 @@
           <button class="compact-button" type="button" data-copy="#install-command">Copy</button>
         </div>
         <div class="release-line" aria-label="Release facts">
-          <span>v{{PACKAGE_VERSION}}</span><span>Node 12-24</span><span>TypeScript 3.9+</span><span>Exact-pinned resolver</span>
+          <span>v{{PACKAGE_VERSION}}</span><span>Node 12-24</span><span>TypeScript 3.9+</span><span>Zero runtime dependencies</span>
         </div>
       </div>
     </section>
@@ -143,7 +143,7 @@ const subject = proxyquire('./subject.cjs', {
         <dl class="proof-list">
           <div><dt>7</dt><dd>Node major lines from 12 through 24</dd></div>
           <div><dt>3</dt><dd>operating systems in CI</dd></div>
-          <div><dt>1</dt><dd>exact-pinned direct runtime dependency</dd></div>
+          <div><dt>0</dt><dd>runtime, optional, or peer dependencies</dd></div>
           <div><dt>2</dt><dd>TypeScript generations checked</dd></div>
           <div><dt>CJS</dt><dd>explicit interception boundary</dd></div>
           <div><dt>Alias</dt><dd>legacy package-name smoke install</dd></div>

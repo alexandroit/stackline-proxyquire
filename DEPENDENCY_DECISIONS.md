@@ -2,23 +2,19 @@
 
 ## Runtime
 
-The maintained package has one exact-pinned direct runtime dependency and no
-optional or peer dependencies.
+The maintained package has no runtime, optional, or peer dependencies.
 
 | Upstream dependency | Upstream range | Decision | Rationale |
 | --- | --- | --- | --- |
 | `fill-keys` | `^1.0.2` | remove | Preserve the small descriptor-copy/call-through behavior internally without the `is-object` and `merge-descriptors` subtree. |
 | `module-not-found-error` | `^1.0.1` | remove | Construct and test the small Node-shaped `MODULE_NOT_FOUND` error internally. |
-| `resolve` | `^1.11.1` | retain and exact-pin at `1.22.12` | Differential tests on Node 12 and 24 showed that native resolution collapses distinct symlink and package-export-alias request identities, causing one stub to intercept another request. The maintained `resolve` line preserves the upstream matching contract. |
+| `resolve` | `^1.11.1` | internalize the required resolver boundary | Native canonical resolution collapses distinct symlink and package-export-alias request identities. A focused lexical CommonJS resolver preserves those identities and the upstream matching contract without carrying the seven-package subtree. |
 
 A fresh `proxyquire@2.1.3` production install contains eleven external package
-nodes below those three direct dependencies. Internalizing `fill-keys` and
-`module-not-found-error` reduces the maintained production graph to seven
-external nodes: `resolve`, `es-errors`, `is-core-module`, `hasown`,
-`function-bind`, `path-parse`, and `supports-preserve-symlinks-flag`. All are
-resolved through the exact-pinned `resolve@1.22.12` direct dependency. The
-complete production graph audited with zero findings on 2026-08-27; the
-reduction is not a claim that the upstream graph is vulnerable.
+nodes below those three direct dependencies. The maintained package now
+internalizes only the narrow behavior it uses and has no external production
+nodes. Differential and targeted identity tests cover the internalized
+behavior; the reduction is not a claim that the upstream graph is vulnerable.
 
 ## Development
 
@@ -41,8 +37,7 @@ Mocha's and Sinon's declared transitive ranges still admit advisory-affected
 `serialize-javascript@7.1.0`; the complete development graph and the separate
 production graph both audited with zero findings on 2026-08-27. Development
 tools run on Node 20/24, while the minimal runtime harness covers Node 12-24
-with the exact production dependency installed separately from development
-tooling.
+in clean installs independent from development tooling.
 
 The upstream development audit reported 13 findings in obsolete tooling. No
 development dependency is shipped to consumers, and the release gate requires

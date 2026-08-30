@@ -8,8 +8,7 @@ var manifest = require('../package.json')
 var proxyquire = require('..')
 
 assert.strictEqual(manifest.name, '@stackline/proxyquire')
-assert.deepStrictEqual(manifest.dependencies, { resolve: '1.22.12' })
-assert.strictEqual(require('resolve/package.json').version, '1.22.12')
+assert.deepStrictEqual(manifest.dependencies, {})
 assert.strictEqual(typeof proxyquire, 'function')
 assert.strictEqual(proxyquire.callThru(), proxyquire)
 

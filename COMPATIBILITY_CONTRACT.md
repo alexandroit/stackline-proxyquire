@@ -50,13 +50,15 @@ may consequently run again.
 - first-party declarations compatible with TypeScript 3.9 and current versions;
 - explicit package exports and npm-alias installation.
 
-## Resolution dependency boundary
+## Resolution boundary
 
-`resolve@1.22.12` is retained and exact-pinned. Its request-oriented resolution
-keeps distinct symlink paths and package-export aliases independently stubbable,
-matching `proxyquire@2.1.3`. Replacing it with Node's canonical native resolver
-would collapse those request identities and change which dependency a stub
-intercepts. The maintained package has no optional or peer dependencies.
+The package uses an internal lexical CommonJS resolver and has no runtime,
+optional, or peer dependencies. It intentionally avoids native canonical
+resolution because canonical paths collapse distinct symlink and package-export
+alias requests. Differential tests keep those request identities independently
+stubbable, matching `proxyquire@2.1.3`. Resolution covers built-ins, relative
+and absolute files, configured extensions, directory indexes, package `main`,
+deep package requests, ancestor `node_modules`, and Node global module paths.
 
 ## Intentional corrections
 

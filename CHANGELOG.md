@@ -2,6 +2,16 @@
 
 All notable changes to `@stackline/proxyquire` are documented here.
 
+## 1.0.1 - 2026-08-30
+
+- Replace the seven-package `resolve@1.22.12` production subtree with a
+  dependency-free lexical CommonJS resolver.
+- Preserve distinct symlink paths, package-export aliases, package roots,
+  deep requests, extension lookup, and caller-relative resolution without
+  canonicalizing request identities.
+- Add recursive production-closure gates requiring warning-free direct and
+  historical-alias installs, a valid npm tree, and zero audit findings.
+
 ## 1.0.0 - 2026-08-27
 
 - Preserve the callable `proxyquire@2.1.3` CommonJS API and `.load` alias.

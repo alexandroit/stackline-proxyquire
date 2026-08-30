@@ -197,25 +197,9 @@ test('composes nested loads across separately installed package copies', functio
 
   try {
     fs.mkdirSync(path.join(copy, 'lib'), { recursive: true })
-    fs.mkdirSync(path.join(copy, 'node_modules'), { recursive: true })
     fs.copyFileSync(require.resolve('../index.js'), path.join(copy, 'index.js'))
-    for (var file of ['is.js', 'proxyquire-error.js', 'proxyquire.js']) {
+    for (var file of ['is.js', 'proxyquire-error.js', 'proxyquire.js', 'request-resolver.js']) {
       fs.copyFileSync(path.join(__dirname, '..', 'lib', file), path.join(copy, 'lib', file))
-    }
-    for (var dependency of [
-      'resolve',
-      'es-errors',
-      'is-core-module',
-      'hasown',
-      'function-bind',
-      'path-parse',
-      'supports-preserve-symlinks-flag'
-    ]) {
-      fs.cpSync(
-        path.join(__dirname, '..', 'node_modules', dependency),
-        path.join(copy, 'node_modules', dependency),
-        { recursive: true }
-      )
     }
     fs.writeFileSync(path.join(temporary, 'nested-dependency.cjs'), "module.exports = { value: 'real-copy' }\n")
     fs.writeFileSync(path.join(temporary, 'nested-inner.cjs'), "module.exports = require('./nested-dependency.cjs').value\n")
@@ -299,10 +283,10 @@ test('restores an enumerable __proto__ extension key as ordinary data', function
   }
 })
 
-test('ships with the exact compatibility resolver dependency', function () {
+test('ships without production dependencies', function () {
   var manifest = require('../package.json')
   assert.equal(manifest.name, '@stackline/proxyquire')
-  assert.deepEqual(manifest.dependencies, { resolve: '1.22.12' })
+  assert.deepEqual(manifest.dependencies, {})
   assert.equal(manifest.optionalDependencies, undefined)
   assert.equal(manifest.peerDependencies, undefined)
 })

@@ -12,27 +12,12 @@ The complete upstream copyright and permission notice is retained in
 licensed test intent while replacing substantial dependency, loader, type, and
 release internals.
 
-The published package retains exact-pinned `resolve@1.22.12` because its
-request-identity behavior is part of upstream compatibility. Its seven-node
-MIT-licensed production graph is `resolve`, `es-errors`, `is-core-module`,
-`hasown`, `function-bind`, `path-parse`, and
-`supports-preserve-symlinks-flag`. Each installed dependency carries its own
-license file, and the release SBOM records the exact versions and relationships.
+The published package has no runtime, optional, or peer dependencies. The
+release SBOM records the zero-dependency production closure and the retained
+upstream attribution.
 
 Small compatibility helpers derived from former dependencies are internalized;
 their notices are preserved below.
-
-## Runtime dependency graph
-
-| Package | Version | License | Source |
-| --- | --- | --- | --- |
-| `resolve` | 1.22.12 | MIT | <https://github.com/browserify/resolve> |
-| `es-errors` | 1.3.0 | MIT | <https://github.com/ljharb/es-errors> |
-| `is-core-module` | 2.16.2 | MIT | <https://github.com/inspect-js/is-core-module> |
-| `hasown` | 2.0.4 | MIT | <https://github.com/inspect-js/hasOwn> |
-| `function-bind` | 1.1.2 | MIT | <https://github.com/Raynos/function-bind> |
-| `path-parse` | 1.0.7 | MIT | <https://github.com/jbgutierrez/path-parse> |
-| `supports-preserve-symlinks-flag` | 1.0.0 | MIT | <https://github.com/inspect-js/node-supports-preserve-symlinks-flag> |
 
 ## fill-keys 1.0.2
 

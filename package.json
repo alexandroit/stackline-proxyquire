@@ -1,6 +1,6 @@
 {
   "name": "@stackline/proxyquire",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "Compatibility-first CommonJS dependency injection with bounded cache cleanup, caller anchoring, and first-party types",
   "type": "commonjs",
   "main": "./index.js",
@@ -97,14 +97,15 @@
     "lint": "eslint index.js index.mjs lib scripts test/*.test.js test/runtime-compat.js test/esm.mjs docs-site examples",
     "test:upstream": "mocha --require should --reporter spec test/proxyquire*.js",
     "test:compatibility": "node --test test/compatibility.test.js",
+    "test:resolver": "node --test test/request-resolver.test.js",
     "test:cache": "node --test test/cache-regression.test.js",
     "test:differential": "node --test test/differential.test.js",
     "test:dependents": "node --test test/dependent-usage.test.js",
     "test:esm": "node test/esm.mjs",
     "test:types": "node node_modules/typescript-3-9/bin/tsc -p test/types/tsconfig.legacy.json && node node_modules/typescript/bin/tsc -p test/types/tsconfig.commonjs.json && node node_modules/typescript/bin/tsc -p test/types/tsconfig.modern.json",
     "test:runtime": "node test/runtime-compat.js",
-    "test": "npm run test:upstream && npm run test:compatibility && npm run test:cache && npm run test:differential && npm run test:dependents && npm run test:esm && npm run test:types && npm run test:runtime",
-    "test:coverage": "c8 --all --include=index.js --include=lib/*.js --check-coverage --lines 95 --functions 95 --branches 90 node --test test/compatibility.test.js test/cache-regression.test.js test/differential.test.js test/dependent-usage.test.js test/esm.mjs",
+    "test": "npm run test:upstream && npm run test:compatibility && npm run test:resolver && npm run test:cache && npm run test:differential && npm run test:dependents && npm run test:esm && npm run test:types && npm run test:runtime",
+    "test:coverage": "c8 --all --include=index.js --include=lib/*.js --check-coverage --lines 95 --functions 95 --branches 90 node --test test/compatibility.test.js test/request-resolver.test.js test/cache-regression.test.js test/differential.test.js test/dependent-usage.test.js test/esm.mjs",
     "test:smoke": "node scripts/smoke-install.mjs",
     "test:registry": "node scripts/smoke-registry.mjs",
     "test:docs": "npm run docs:build && node scripts/check-docs.mjs",
@@ -141,6 +142,7 @@
   },
   "overrides": {
     "diff": "9.0.0",
+    "glob": "13.0.6",
     "serialize-javascript": "7.1.0"
   },
   "keywords": [
@@ -160,9 +162,7 @@
     "Ben Drucker"
   ],
   "license": "MIT",
-  "dependencies": {
-    "resolve": "1.22.12"
-  },
+  "dependencies": {},
   "engines": {
     "node": ">=12"
   },
