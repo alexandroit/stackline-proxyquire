@@ -9,7 +9,7 @@ registry_scope: verdaccio-and-public-npm
 public_npm: true
 public_github: true
 docs_production: true
-last_updated: 2026-08-27
+last_updated: 2026-08-30
 ---
 
 # Project 13 Memory
@@ -34,13 +34,12 @@ leakage, type ownership, dependencies, and release engineering.
 
 ## Release target
 
-- version: `1.0.0`;
+- version: `1.0.1`;
 - Node: 12 through 24;
 - modules: callable CommonJS API plus caller-anchored ESM/TypeScript host facade;
 - subject boundary: CommonJS loading only, no native ESM interception;
 - TypeScript: 3.9 plus current;
-- runtime dependencies: exact-pinned `resolve@1.22.12`; seven external
-  production package nodes; no optional or peer dependencies;
+- runtime dependencies: none; no optional or peer dependencies;
 - migration: `proxyquire@npm:@stackline/proxyquire`;
 - documentation: `https://alexandro.net/docs/vanilla/proxyquire/`.
 
@@ -53,8 +52,10 @@ leakage, type ownership, dependencies, and release engineering.
   explicit caller anchor for CommonJS subjects;
 - preserve observed 2.1.3 cache behavior, not the inaccurate identity example
   in its README;
-- retain `resolve@1.22.12`: Node 12/24 differential tests proved that native
-  resolution collapses distinct symlink and package-export-alias request keys;
+- preserve lexical CommonJS request identity with the package-owned resolver;
+  Node 12-24 differential tests cover symlinks, package-export aliases,
+  builtins, scoped packages, directory mains, deep imports, and ancestor
+  `node_modules` traversal;
 - detach exact transient children and conditionally restore loaders;
 - keep global/runtime-global state scoped to the active load and nested-load
   safe.
@@ -122,3 +123,30 @@ checks.
   `/var/backups/stackline-docs/20260827T191702Z-proxyquire` before deployment.
 - Final disposition: GO / `PUBLISHED` and validated on Verdaccio, official
   npm, GitHub, and production documentation.
+
+### Recursive dependency hardening — 2026-08-30
+
+- Release `1.0.1` removes `resolve@1.22.12` and its seven-package production
+  dependency subtree. The package now has zero runtime, optional, and peer
+  dependencies.
+- A focused lexical CommonJS resolver replaces the external dependency while
+  preserving request spelling across symlinks and package-export aliases. The
+  implementation is covered by 72 upstream tests, 132 representative
+  differential loads, targeted cache and identity tests, and Node 12-24.
+- TypeScript 3.9/current declarations, CommonJS and ESM-host consumers,
+  `publint`, Are The Types Wrong, coverage, packed direct and alias installs,
+  `npm ls`, full and production audits, registry signatures, CI, and CodeQL
+  pass.
+- Source and tag commit:
+  `7c54172a2c5a85928b0ddb2785d829dfc73f31a7`; tag:
+  `stackline-v1.0.1`; CI run `33301832433`; CodeQL run `33301832509`.
+- Immutable artifact: 25 files, 15,177 packed bytes, 49,169 unpacked bytes;
+  SHA-1 `2ffbafcb146c533cc559249ed1aa6eab133aa323`; SHA-256
+  `ec31099f2f73d5df103e4084c975a5584270809f230957beba70238687a4588c`;
+  npm integrity
+  `sha512-acezmTPLT7vQUDKOAcWFB0IN9LYj/ZpRoI1nTg21KYxqZ8W193paM27D8ATroxKVCpkJQ2vWl3j4G8P7cqrhjw==`.
+- Verdaccio and official npm tarballs are byte-identical to the release
+  candidate. Clean direct and `proxyquire@npm:@stackline/proxyquire` installs
+  pass against both registries with zero vulnerabilities.
+- Immutable GitHub release:
+  https://github.com/alexandroit/stackline-proxyquire/releases/tag/stackline-v1.0.1
