@@ -25,6 +25,10 @@ try {
   const packResult = JSON.parse(packed.stdout)[0]
   tarball = path.join(root, packResult.filename)
 
+  for (const file of packResult.files) {
+    assert.equal(file.mode, 0o644, `packed file mode must be 0644: ${file.path}`)
+  }
+
   const paths = packResult.files.map((file) => file.path)
   for (const required of [
     'LICENSE',
