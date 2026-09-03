@@ -132,7 +132,7 @@
     "@eslint/js": "10.0.1",
     "c8": "12.0.0",
     "eslint": "10.9.1",
-    "mocha": "11.8.0",
+    "mocha": "12.0.0",
     "proxyquire-upstream": "npm:proxyquire@2.1.3",
     "publint": "0.3.24",
     "should": "13.2.3",
