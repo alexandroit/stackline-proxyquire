@@ -11,7 +11,7 @@ npm install --save-dev proxyquire@npm:@stackline/proxyquire
 ```json
 {
   "devDependencies": {
-    "proxyquire": "npm:@stackline/proxyquire@^1.0.0"
+    "proxyquire": "npm:@stackline/proxyquire@^1.0.2"
   }
 }
 ```
