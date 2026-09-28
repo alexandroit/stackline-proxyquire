@@ -1,15 +1,58 @@
 # @stackline/proxyquire
 
-[![npm version](https://img.shields.io/npm/v/@stackline/proxyquire.svg)](https://www.npmjs.com/package/@stackline/proxyquire)
-[![CI](https://github.com/alexandroit/stackline-proxyquire/actions/workflows/ci.yml/badge.svg)](https://github.com/alexandroit/stackline-proxyquire/actions/workflows/ci.yml)
-[![license](https://img.shields.io/npm/l/@stackline/proxyquire.svg)](./LICENSE)
+> Compatibility-first CommonJS dependency injection with bounded cache cleanup, caller anchoring, and first-party types
+
+[![npm version](https://img.shields.io/npm/v/@stackline/proxyquire.svg?style=flat-square)](https://www.npmjs.com/package/@stackline/proxyquire)
+[![license](https://img.shields.io/npm/l/@stackline/proxyquire.svg?style=flat-square)](https://github.com/alexandroit/stackline-proxyquire/blob/main/LICENSE)
+[![GitHub repository](https://img.shields.io/badge/GitHub-Repository-181717?style=flat-square&logo=github)](https://github.com/alexandroit/stackline-proxyquire)
+
+**[Documentation](https://alexandro.net/docs/vanilla/proxyquire/)** |
+**[npm](https://www.npmjs.com/package/@stackline/proxyquire)** |
+**[Issues](https://github.com/alexandroit/stackline-proxyquire/issues)** |
+**[Repository](https://github.com/alexandroit/stackline-proxyquire)**
+
+**Package version:** `1.0.2`
+
+## Why this package?
 
 Compatibility-first dependency stubbing for CommonJS tests. It preserves the
 established `proxyquire@2.1.3` API while adding a caller-anchored factory for
 tests authored as native ES modules or TypeScript, first-party declarations,
 safer loader restoration, and a dependency-free runtime.
 
-## Install
+## Compatibility
+
+| Item | Value |
+| --- | --- |
+| Package | `@stackline/proxyquire@1.0.2` |
+| Node.js runtime | `>=12` |
+| CommonJS / primary entry | `./index.js` |
+| ES module entry | `./index.mjs` |
+| Type declarations | `./index.d.ts` |
+
+- callable CommonJS export and `.load`
+- call-through, cache, local/global/runtime-global, and missing-module controls
+- caller-relative subject and stub resolution
+- ESM/native-TypeScript host facade for CommonJS subjects
+- TypeScript 3.9 and current TypeScript
+- Node.js 12 through 24
+- zero production, optional, and peer dependencies
+- warning-free direct and historical-alias installs with a valid npm tree and
+  zero production audit findings
+
+See the [migration guide](https://github.com/alexandroit/stackline-proxyquire/blob/main/MIGRATION.md) and full
+[compatibility contract](https://github.com/alexandroit/stackline-proxyquire/blob/main/COMPATIBILITY_CONTRACT.md). Interactive documentation
+is available at [alexandro.net](https://alexandro.net/docs/vanilla/proxyquire/).
+
+Dependency and release choices are recorded in
+[DEPENDENCY_DECISIONS.md](https://github.com/alexandroit/stackline-proxyquire/blob/main/DEPENDENCY_DECISIONS.md) and
+[PUBLISHING.md](https://github.com/alexandroit/stackline-proxyquire/blob/main/PUBLISHING.md).
+
+## Installation
+
+<a id="install"></a>
+
+### Install
 
 ```bash
 npm install --save-dev @stackline/proxyquire
@@ -21,7 +64,11 @@ Keep an existing `require('proxyquire')` unchanged with an npm alias:
 npm install --save-dev proxyquire@npm:@stackline/proxyquire
 ```
 
-## CommonJS usage
+## Usage
+
+<a id="commonjs-usage"></a>
+
+### CommonJS usage
 
 Given a CommonJS subject:
 
@@ -53,7 +100,11 @@ assert.deepEqual(notifications.welcome('dev@example.test'), {
 Stub keys match the request strings used by the subject. Relative subjects are
 resolved from the test module that created the Proxyquire instance.
 
-## Native ESM and TypeScript test files
+## Features and Integrations
+
+<a id="native-esm-and-typescript-test-files"></a>
+
+### Native ESM and TypeScript test files
 
 An ES module has no CommonJS `module.parent`. Anchor resolution explicitly:
 
@@ -74,14 +125,25 @@ call has independent call-through and cache settings.
 It does not intercept static or dynamic imports inside a native ESM module.
 Use an ESM-aware test loader for native ESM dependency replacement.
 
-## API
+## Security
 
-### `proxyquire(request, stubs)` / `proxyquire.load(request, stubs)`
+Proxyquire temporarily changes process-wide CommonJS cache and extension state.
+Use it only with trusted test code and stubs; it is not a sandbox or an access
+control. Report vulnerabilities privately as described in
+[SECURITY.md](https://github.com/alexandroit/stackline-proxyquire/blob/main/SECURITY.md).
+
+## API Surface
+
+<a id="api"></a>
+
+### API
+
+#### `proxyquire(request, stubs)` / `proxyquire.load(request, stubs)`
 
 Loads a fresh CommonJS subject while replacing the requested dependencies.
 The callable form and `.load` are equivalent.
 
-### `createProxyquire(from)`
+#### `createProxyquire(from)`
 
 Returns a caller-anchored Proxyquire function with the same callable API and
 configuration methods. Pass an absolute filename or a `file:` URL, normally
@@ -89,7 +151,7 @@ configuration methods. Pass an absolute filename or a `file:` URL, normally
 module object is also accepted for tooling integrations. `proxyquire.from()` is
 an alias of this factory.
 
-### Call-through controls
+#### Call-through controls
 
 Missing properties call through to the original dependency by default.
 
@@ -106,7 +168,7 @@ Set `stub['@noCallThru']` to `true` or `false` to override the instance setting
 for one dependency. A `null` stub simulates `MODULE_NOT_FOUND`. Functions,
 arrays, primitives, and other non-object exports remain supported.
 
-### Cache controls
+#### Cache controls
 
 - `preserveCache()` is the default. Proxyquire restores the cache entry that
   existed before each load; the proxyquired result does not replace it.
@@ -114,51 +176,60 @@ arrays, primitives, and other non-object exports remain supported.
   evicted after a load so a later request executes them again.
 
 These controls do not recursively evict unrelated, unstubbed transitive
-dependencies. See the [compatibility contract](./COMPATIBILITY_CONTRACT.md) for
+dependencies. See the [compatibility contract](https://github.com/alexandroit/stackline-proxyquire/blob/main/COMPATIBILITY_CONTRACT.md) for
 the exact boundary.
 
-### Global controls
+#### Global controls
 
 `@global` applies a stub through the CommonJS graph during initialization.
 `@runtimeGlobal` also applies it to later runtime `require()` calls. Both modes
 bypass more of Node's cache and may re-run module initialization; prefer direct
 stubs whenever possible.
 
-### Historical compatibility method
+#### Historical compatibility method
 
 `compat()` remains present and throws the upstream message explaining that the
 removed Proxyquire 0.3 compatibility mode requires an older pinned release.
 
-## Compatibility
+## Local Development
 
-- callable CommonJS export and `.load`
-- call-through, cache, local/global/runtime-global, and missing-module controls
-- caller-relative subject and stub resolution
-- ESM/native-TypeScript host facade for CommonJS subjects
-- TypeScript 3.9 and current TypeScript
-- Node.js 12 through 24
-- zero production, optional, and peer dependencies
-- warning-free direct and historical-alias installs with a valid npm tree and
-  zero production audit findings
+```sh
+git clone https://github.com/alexandroit/stackline-proxyquire.git
+cd stackline-proxyquire
+npm ci
+npm run verify
+```
 
-See the [migration guide](./MIGRATION.md) and full
-[compatibility contract](./COMPATIBILITY_CONTRACT.md). Interactive documentation
-is available at [alexandro.net](https://alexandro.net/docs/vanilla/proxyquire/).
+Release tooling uses Node.js 24.20.0 and npm 11.19.0. The consumer runtime contract remains the one documented above.
 
-Dependency and release choices are recorded in
-[DEPENDENCY_DECISIONS.md](./DEPENDENCY_DECISIONS.md) and
-[PUBLISHING.md](./PUBLISHING.md).
+## Consumer Smoke Test
 
-## Security
+Run the repository's existing consumer/package check after installing development dependencies:
 
-Proxyquire temporarily changes process-wide CommonJS cache and extension state.
-Use it only with trusted test code and stubs; it is not a sandbox or an access
-control. Report vulnerabilities privately as described in
-[SECURITY.md](./SECURITY.md).
+```sh
+npm run test:smoke
+```
 
-## License and attribution
+## Release Checklist
+
+Run `npm run verify` and inspect the package contents before release. Publish a new version through the [GitHub Actions publishing workflow](https://github.com/alexandroit/stackline-proxyquire/actions/workflows/publish.yml), using the SHA-512 digest of the reviewed tarball. Verify the exact published version, tarball integrity, and npm provenance after the run.
+
+## Community and Support
+
+Report reproducible package issues in the [issue tracker](https://github.com/alexandroit/stackline-proxyquire/issues). Use the [security policy](https://github.com/alexandroit/stackline-proxyquire/blob/main/SECURITY.md) for vulnerability reports.
+
+- [Stackline / Alexandro.Net](https://alexandro.net/)
+- [GitHub](https://github.com/alexandroit)
+- [Maintainer LinkedIn](https://www.linkedin.com/in/aleinfo/)
+- [Reddit community: r/Stackline](https://www.reddit.com/r/Stackline/)
+
+## License
+
+<a id="license-and-attribution"></a>
+
+### License and attribution
 
 MIT. Thorsten Lorenz's original copyright and license are preserved in
-[LICENSE](./LICENSE). This independent continuation is not affiliated with or
-endorsed by the original maintainer. See [NOTICE](./NOTICE) and
-[THIRD_PARTY_LICENSES.md](./THIRD_PARTY_LICENSES.md).
+[LICENSE](https://github.com/alexandroit/stackline-proxyquire/blob/main/LICENSE). This independent continuation is not affiliated with or
+endorsed by the original maintainer. See [NOTICE](https://github.com/alexandroit/stackline-proxyquire/blob/main/NOTICE) and
+[THIRD_PARTY_LICENSES.md](https://github.com/alexandroit/stackline-proxyquire/blob/main/THIRD_PARTY_LICENSES.md).

@@ -1,6 +1,6 @@
 {
   "name": "@stackline/proxyquire",
-  "version": "1.0.1",
+  "version": "1.0.2",
   "description": "Compatibility-first CommonJS dependency injection with bounded cache cleanup, caller anchoring, and first-party types",
   "type": "commonjs",
   "main": "./index.js",
@@ -154,7 +154,8 @@
     "stub",
     "testing",
     "typescript",
-    "stackline"
+    "stackline",
+    "mocking"
   ],
   "author": "Stackline Maintainers",
   "contributors": [
