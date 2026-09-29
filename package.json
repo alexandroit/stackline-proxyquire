@@ -1,6 +1,6 @@
 {
   "name": "@stackline/proxyquire",
-  "version": "1.0.3",
+  "version": "1.0.4",
   "description": "Compatibility-first CommonJS dependency injection with bounded cache cleanup, caller anchoring, and first-party types",
   "type": "commonjs",
   "main": "./index.js",
@@ -146,15 +146,17 @@
     "serialize-javascript": "7.1.0"
   },
   "keywords": [
+    "stackline",
+    "npm-package",
+    "proxyquire",
+    "typescript",
+    "nodejs",
     "commonjs",
     "dependency-injection",
     "mock",
-    "proxyquire",
     "require",
     "stub",
     "testing",
-    "typescript",
-    "stackline",
     "mocking"
   ],
   "author": "Stackline Maintainers",
