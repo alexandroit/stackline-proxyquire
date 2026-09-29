@@ -4,7 +4,7 @@
     {
       "name": "@stackline/proxyquire",
       "path": "README.md",
-      "version": "1.0.4",
+      "version": "1.0.5",
       "baselineVersion": "1.0.3",
       "keywords": [
         "stackline",
@@ -23,8 +23,8 @@
       "homepage": "https://alexandro.net/docs/vanilla/proxyquire/",
       "baselineTarball": "https://registry.npmjs.org/@stackline/proxyquire/-/proxyquire-1.0.3.tgz",
       "baselineIntegrity": "sha512-reWSjEYdQ/JcOnbRZHGD8kVR/hp+xq0m8++IkMfdgVoU1yKuWFtBnPz0ZgrbPJbH7cm6rWrQFbtZI/27UeMg8Q==",
-      "expectedSha512": "2dd99845b51dc2e5c681f667a6d106f7275c42adade4909d8c1fece12a01abdd0cdcc84b608541dd3a5edf68417c575423bdb07888ed8ca643e94451a25df600",
-      "tag": "docs-stackline-proxyquire-v1.0.4"
+      "expectedSha512": "7db472abb01e6d5197b91613cb1838a1f4640bbba26d623f42328f06dfb001b1b5c14902f3a3499f5421cb03f83058de1e7d98c4a09782a420ffa6acae54bff6",
+      "tag": "docs-stackline-proxyquire-v1.0.5"
     }
   ]
 }
