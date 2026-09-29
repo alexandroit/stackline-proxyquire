@@ -11,7 +11,7 @@
 **[Issues](https://github.com/alexandroit/stackline-proxyquire/issues)** |
 **[Repository](https://github.com/alexandroit/stackline-proxyquire)**
 
-**Package version:** `1.0.2`
+**Package version:** `1.0.3`
 
 ## Why this package?
 
@@ -24,7 +24,7 @@ safer loader restoration, and a dependency-free runtime.
 
 | Item | Value |
 | --- | --- |
-| Package | `@stackline/proxyquire@1.0.2` |
+| Package | `@stackline/proxyquire@1.0.3` |
 | Node.js runtime | `>=12` |
 | CommonJS / primary entry | `./index.js` |
 | ES module entry | `./index.mjs` |

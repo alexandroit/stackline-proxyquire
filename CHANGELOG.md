@@ -1,5 +1,9 @@
 # Changelog
 
+## 1.0.3 - 2026-09-28
+
+- Use the verified Stackline maintenance fork of should for upstream compatibility tests.
+
 ## [1.0.2] - 2026-09-28
 
 - Organize package documentation, preserve API and migration examples, and add Stackline community links.
