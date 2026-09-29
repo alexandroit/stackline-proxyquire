@@ -32,7 +32,6 @@ jobs:
   publish:
     if: github.ref == 'refs/heads/main'
     runs-on: ubuntu-latest
-    environment: Prod
     permissions:
       contents: write
       actions: read
@@ -103,6 +102,8 @@ jobs:
           [[ "$EXPECTED_PUBLICATION_RUN" =~ ^https://github.com/alexandroit/stackline-proxyquire/actions/runs/[0-9]+/attempts/[0-9]+$ ]]
       - name: Publish the exact CI tarball with provenance
         if: steps.registry.outputs.published == 'false'
+        env:
+          NODE_AUTH_TOKEN: ${{ secrets.STACKLINE_NPM_PUBLISH_TOKEN }}
         run: npm publish ./artifact/*.tgz --access public --provenance --ignore-scripts
       - name: Verify npm bytes, normal installs, signatures, and provenance
         env:
