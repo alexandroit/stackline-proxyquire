@@ -4,13 +4,13 @@
 
 [![npm version](https://img.shields.io/npm/v/@stackline/proxyquire.svg?style=flat-square)](https://www.npmjs.com/package/@stackline/proxyquire)
 [![license](https://img.shields.io/npm/l/@stackline/proxyquire.svg?style=flat-square)](https://github.com/alexandroit/stackline-proxyquire)
-[![GitHub repository](https://img.shields.io/badge/GitHub-alexandroit%2Fstackline-proxyquire-181717?style=flat-square&logo=github)](https://github.com/alexandroit/stackline-proxyquire)
+[![GitHub repository](https://img.shields.io/badge/GitHub-repository-181717?style=flat-square&logo=github)](https://github.com/alexandroit/stackline-proxyquire)
 [![Docs](https://img.shields.io/badge/docs-alexandro.net-0f766e?style=flat-square)](https://alexandro.net/docs/vanilla/proxyquire/)
 [![Reddit community](https://img.shields.io/badge/community-r%2FStackline-ff4500?style=flat-square&logo=reddit&logoColor=white)](https://www.reddit.com/r/Stackline/)
 
 **[Documentation](https://alexandro.net/docs/vanilla/proxyquire/)** | **[npm](https://www.npmjs.com/package/@stackline/proxyquire)** | **[Issues](https://github.com/alexandroit/stackline-proxyquire/issues)** | **[Repository](https://github.com/alexandroit/stackline-proxyquire)**
 
-**Current package version:** `1.0.4`
+**Current package version:** `1.0.5`
 
 ---
 
@@ -25,7 +25,7 @@ safer loader restoration, and a dependency-free runtime.
 
 | Item | Value |
 | --- | --- |
-| Package | `@stackline/proxyquire@1.0.4` |
+| Package | `@stackline/proxyquire@1.0.5` |
 | Node.js runtime | `>=12` |
 | CommonJS / primary entry | `./index.js` |
 | ES module entry | `./index.mjs` |
